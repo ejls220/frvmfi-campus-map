@@ -8,41 +8,50 @@
   </head>
 
   <body style="margin:0; overflow:hidden;">
-    <a-scene vr-mode-ui="enabled: false" embedded arjs="sourceType: webcam; debugUIEnabled: false;">
-      
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; debugUIEnabled: false;">
+
       <!-- GPS Camera -->
       <a-camera gps-camera rotation-reader></a-camera>
 
-      <!-- Map Pointers -->
+      <!-- Helper function to create pointers -->
+      <script>
+        function createPointer(latitude, longitude, name, scale=2) {
+          const scene = document.querySelector('a-scene');
 
-      <!-- Library -->
-      <a-entity
-        gps-entity-place="latitude: 11.024918; longitude: 124.011105;"
-        gltf-model="scene.gltf"
-        scale="0.5 0.5 0.5"
-        rotation="-90 0 0"
-        look-at="[gps-camera]">
-      </a-entity>
+          const entity = document.createElement('a-entity');
+          entity.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+          entity.setAttribute('gltf-model', 'scene.gltf');
+          entity.setAttribute('scale', `${scale} ${scale} ${scale}`);
+          entity.setAttribute('rotation', '-90 0 0');
+          entity.setAttribute('look-at', '[gps-camera]');
+          entity.setAttribute('visible', 'false'); // hide until model loads
 
-      <!-- Gym -->
-      <a-entity
-        gps-entity-place="latitude: 11.025500; longitude: 124.011500;"
-        gltf-model="scene.gltf"
-        scale="0.5 0.5 0.5"
-        rotation="-90 0 0"
-        look-at="[gps-camera]">
-      </a-entity>
+          // Show only when model fully loaded
+          entity.addEventListener('model-loaded', () => {
+            entity.setAttribute('visible', 'true');
+          });
 
-      <!-- Cafeteria -->
-      <a-entity
-        gps-entity-place="latitude: 11.024400; longitude: 124.010800;"
-        gltf-model="scene.gltf"
-        scale="0.5 0.5 0.5"
-        rotation="-90 0 0"
-        look-at="[gps-camera]">
-      </a-entity>
-      
+          // Create label
+          const label = document.createElement('a-text');
+          label.setAttribute('value', name);
+          label.setAttribute('color', '#FF0000');
+          label.setAttribute('align', 'center');
+          label.setAttribute('position', '0 1 0'); // above pointer
+          label.setAttribute('look-at', '[gps-camera]');
+          entity.appendChild(label);
+
+          scene.appendChild(entity);
+        }
+
+        // Add campus pointers
+        createPointer(11.024918, 124.011105, 'Library');     // Library
+        createPointer(11.025500, 124.011500, 'Gym');         // Gym
+        createPointer(11.024400, 124.010800, 'Cafeteria');   // Cafeteria
+      </script>
+
     </a-scene>
   </body>
 </html>
-
