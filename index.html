@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Campus AR Map</title>
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.7/aframe/build/aframe-ar.js"></script>
+  </head>
+
+  <body style="margin:0; overflow:hidden;">
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; debugUIEnabled: false;">
+
+      <!-- GPS Camera -->
+      <a-camera gps-camera rotation-reader></a-camera>
+
+      <!-- Map Pointers -->
+
+      <!-- Library -->
+      <a-entity
+        gps-entity-place="latitude: 11.024918; longitude: 124.011105;"
+        gltf-model="scene.gltf"
+        scale="0.5 0.5 0.5"
+        rotation="-90 0 0"
+        look-at="[gps-camera]">
+      </a-entity>
+
+      <!-- Gym -->
+      <a-entity
+        gps-entity-place="latitude: 11.025500; longitude: 124.011500;"
+        gltf-model="scene.gltf"
+        scale="0.5 0.5 0.5"
+        rotation="-90 0 0"
+        look-at="[gps-camera]">
+      </a-entity>
+
+      <!-- Cafeteria -->
+      <a-entity
+        gps-entity-place="latitude: 11.024400; longitude: 124.010800;"
+        gltf-model="scene.gltf"
+        scale="0.5 0.5 0.5"
+        rotation="-90 0 0"
+        look-at="[gps-camera]">
+      </a-entity>
+
+    </a-scene>
+  </body>
+</html>
