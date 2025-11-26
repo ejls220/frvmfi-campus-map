@@ -16,9 +16,9 @@
       <!-- GPS Camera -->
       <a-camera gps-camera rotation-reader></a-camera>
 
-      <!-- Helper function to create GLB pointers -->
+      <!-- Helper function to create GLB pointers with labels -->
       <script>
-        function createGLBPointer(latitude, longitude, name, scale=0.1, rotation='0 0 0') {
+        function createGLBPointer(latitude, longitude, name, scale=2, rotation='0 0 0') {
           const scene = document.querySelector('a-scene');
 
           // Create pointer entity
@@ -40,26 +40,22 @@
           label.setAttribute('value', name);
           label.setAttribute('color', '#FF0000');
           label.setAttribute('align', 'center');
-          label.setAttribute('position', `0 ${scale} 0`); // above pointer
           label.setAttribute('look-at', '[gps-camera]');
+          label.setAttribute('position', `0 3 0`); // 3 meters above pointer
+          label.setAttribute('width', '4');        // make text readable
           pointer.appendChild(label);
 
           scene.appendChild(pointer);
         }
 
         // Add campus locations
-        createGLBPointer(11.024918, 124.011105, 'Library', 2);     // Library
-        createGLBPointer(11.025500, 124.011500, 'Gym', 2);         // Gym
-        createGLBPointer(11.024400, 124.010800, 'Cafeteria', 2);   // Cafeteria
+        createGLBPointer(11.024918, 124.011105, 'Library');     // Library
+        createGLBPointer(11.025500, 124.011500, 'Gym');         // Gym
+        createGLBPointer(11.024400, 124.010800, 'Cafeteria');   // Cafeteria
+        createGLBPointer(11.024700, 124.011200, 'Admin Office'); // Admin Office
+        createGLBPointer(11.024950, 124.011300, 'Main Gate');    // Main Gate
       </script>
 
     </a-scene>
   </body>
 </html>
-
-
-
-
-
-
-
