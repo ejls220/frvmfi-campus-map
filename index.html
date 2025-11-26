@@ -16,12 +16,12 @@
       <!-- GPS Camera -->
       <a-camera gps-camera rotation-reader></a-camera>
 
-      <!-- Helper function to create GLB pointers with fixed label positions -->
+      <!-- Helper function to create GLB pointers and separate labels -->
       <script>
         function createGLBPointer(latitude, longitude, name, pointerScale=0.5, rotation='0 0 0') {
           const scene = document.querySelector('a-scene');
 
-          // Create pointer entity
+          // 1️⃣ Pointer entity
           const pointer = document.createElement('a-entity');
           pointer.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
           pointer.setAttribute('gltf-model', 'map_pointer_3d_icon.glb');
@@ -30,22 +30,22 @@
           pointer.setAttribute('look-at', '[gps-camera]');
           pointer.setAttribute('visible', 'false');
 
-          // Show pointer when model is fully loaded
           pointer.addEventListener('model-loaded', () => {
             pointer.setAttribute('visible', 'true');
           });
 
-          // Add label above the pointer
+          scene.appendChild(pointer);
+
+          // 2️⃣ Label entity (separate)
           const label = document.createElement('a-text');
+          label.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
           label.setAttribute('value', name);
           label.setAttribute('color', '#FF0000');
           label.setAttribute('align', 'center');
           label.setAttribute('look-at', '[gps-camera]');
-          label.setAttribute('position', `0 2 0`); // fixed 2 meters above pointer
+          label.setAttribute('position', `0 2 0`); // 2 meters above ground
           label.setAttribute('width', '6');        // readable text
-          pointer.appendChild(label);
-
-          scene.appendChild(pointer);
+          scene.appendChild(label);
         }
 
         // Add campus locations
