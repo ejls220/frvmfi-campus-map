@@ -18,7 +18,7 @@
 
       <!-- Helper function to create GLB pointers -->
       <script>
-        function createGLBPointer(latitude, longitude, name, scale=2, rotation='0 0 0') {
+        function createGLBPointer(latitude, longitude, name, scale="0.5 0.5 0.5", rotation='90 0 0') {
           const scene = document.querySelector('a-scene');
 
           // Create pointer entity
@@ -56,4 +56,5 @@
     </a-scene>
   </body>
 </html>
+
 
