@@ -16,42 +16,44 @@
       <!-- GPS Camera -->
       <a-camera gps-camera rotation-reader></a-camera>
 
-      <!-- Helper function to create pointers -->
+      <!-- Helper function to create GLB pointers -->
       <script>
-        function createPointer(latitude, longitude, name, scale=2) {
+        function createGLBPointer(latitude, longitude, name, scale=2, rotation='0 0 0') {
           const scene = document.querySelector('a-scene');
 
-          const entity = document.createElement('a-entity');
-          entity.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
-          entity.setAttribute('gltf-model', 'scene.gltf');
-          entity.setAttribute('scale', `${scale} ${scale} ${scale}`);
-          entity.setAttribute('rotation', '-90 0 0');
-          entity.setAttribute('look-at', '[gps-camera]');
-          entity.setAttribute('visible', 'false'); // hide until model loads
+          // Create pointer entity
+          const pointer = document.createElement('a-entity');
+          pointer.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
+          pointer.setAttribute('gltf-model', 'map_pointer_3d_icon.glb');
+          pointer.setAttribute('scale', `${scale} ${scale} ${scale}`);
+          pointer.setAttribute('rotation', rotation);
+          pointer.setAttribute('look-at', '[gps-camera]');
+          pointer.setAttribute('visible', 'false'); // hide until loaded
 
-          // Show only when model fully loaded
-          entity.addEventListener('model-loaded', () => {
-            entity.setAttribute('visible', 'true');
+          // Show pointer when model is fully loaded
+          pointer.addEventListener('model-loaded', () => {
+            pointer.setAttribute('visible', 'true');
           });
 
-          // Create label
+          // Add label above the pointer
           const label = document.createElement('a-text');
           label.setAttribute('value', name);
           label.setAttribute('color', '#FF0000');
           label.setAttribute('align', 'center');
-          label.setAttribute('position', '0 1 0'); // above pointer
+          label.setAttribute('position', `0 ${scale} 0`); // above pointer
           label.setAttribute('look-at', '[gps-camera]');
-          entity.appendChild(label);
+          pointer.appendChild(label);
 
-          scene.appendChild(entity);
+          scene.appendChild(pointer);
         }
 
-        // Add campus pointers
-        createPointer(11.024918, 124.011105, 'Library');     // Library
-        createPointer(11.025500, 124.011500, 'Gym');         // Gym
-        createPointer(11.024400, 124.010800, 'Cafeteria');   // Cafeteria
+        // Add campus locations
+        createGLBPointer(11.024918, 124.011105, 'Library', 2);     // Library
+        createGLBPointer(11.025500, 124.011500, 'Gym', 2);         // Gym
+        createGLBPointer(11.024400, 124.010800, 'Cafeteria', 2);   // Cafeteria
       </script>
 
     </a-scene>
   </body>
 </html>
+
