@@ -16,19 +16,19 @@
       <!-- GPS Camera -->
       <a-camera gps-camera rotation-reader></a-camera>
 
-      <!-- Helper function to create GLB pointers with labels -->
+      <!-- Helper function to create GLB pointers with readable labels -->
       <script>
-        function createGLBPointer(latitude, longitude, name, scale=2, rotation='0 0 0') {
+        function createGLBPointer(latitude, longitude, name, pointerScale=0.5, labelScale=3, rotation='0 0 0') {
           const scene = document.querySelector('a-scene');
 
           // Create pointer entity
           const pointer = document.createElement('a-entity');
           pointer.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude};`);
           pointer.setAttribute('gltf-model', 'map_pointer_3d_icon.glb');
-          pointer.setAttribute('scale', `${scale} ${scale} ${scale}`);
+          pointer.setAttribute('scale', `${pointerScale} ${pointerScale} ${pointerScale}`);
           pointer.setAttribute('rotation', rotation);
           pointer.setAttribute('look-at', '[gps-camera]');
-          pointer.setAttribute('visible', 'false'); // hide until loaded
+          pointer.setAttribute('visible', 'false');
 
           // Show pointer when model is fully loaded
           pointer.addEventListener('model-loaded', () => {
@@ -41,21 +41,22 @@
           label.setAttribute('color', '#FF0000');
           label.setAttribute('align', 'center');
           label.setAttribute('look-at', '[gps-camera]');
-          label.setAttribute('position', `0 3 0`); // 3 meters above pointer
-          label.setAttribute('width', '4');        // make text readable
+          label.setAttribute('position', `0 ${pointerScale + 1} 0`); // above pointer
+          label.setAttribute('width', `${labelScale}`);              // readable text
           pointer.appendChild(label);
 
           scene.appendChild(pointer);
         }
 
         // Add campus locations
-        createGLBPointer(11.024918, 124.011105, 'Library');     // Library
-        createGLBPointer(11.025500, 124.011500, 'Gym');         // Gym
-        createGLBPointer(11.024400, 124.010800, 'Cafeteria');   // Cafeteria
-        createGLBPointer(11.024700, 124.011200, 'Admin Office'); // Admin Office
-        createGLBPointer(11.024950, 124.011300, 'Main Gate');    // Main Gate
+        createGLBPointer(11.024918, 124.011105, 'Library', 0.5, 3);
+        createGLBPointer(11.025500, 124.011500, 'Gym', 0.5, 3);
+        createGLBPointer(11.024400, 124.010800, 'Cafeteria', 0.5, 3);
+        createGLBPointer(11.024700, 124.011200, 'Admin Office', 0.5, 3);
+        createGLBPointer(11.024950, 124.011300, 'Main Gate', 0.5, 3);
       </script>
 
     </a-scene>
   </body>
 </html>
+
